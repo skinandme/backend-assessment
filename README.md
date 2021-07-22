@@ -19,7 +19,7 @@ Coldplay once sang 'Nobody said it was easy', and we agree. Every day presents n
 You are an energetic and passionate professional with strong communication skills who is as keen to acquire knowledge as you are to share it. You can demonstrate a high degree of competence using our core toolset; AWS, Docker, Python, Flask, SQLAlchemy, Alembic, MySQL and github. You enjoy solving problems and are equally at ease maintaining our existing code base as you are writing new code. You work as well in small teams and you do on projects independently, interacting with key stakeholders as required to achieve positive outcomes.
  
 # Scope
-The purpose of this test is to convey an understanding of your technical competency. You don’t need to complete the task in its entirety but instead you will demonstrate a clear understanding of the problem, a structured approach to problem solving and complete enough elements of the task to show us that you are a good programmer who clearly understands how to best use our toolset.
+The purpose of this test is to convey an understanding of your technical competency. You don’t need to complete the task in its entirety but instead you will demonstrate a clear understanding of the problem, a structured approach to problem solving and complete enough elements of the task to show us that you are a good programmer who clearly understands how to best use our toolset. We expect this test to take between **3 and 4 hours** to get it to a respectable point for further discussion.
  
 # Task
  
@@ -27,35 +27,35 @@ The purpose of this test is to convey an understanding of your technical compete
 The purpose of the task is to get an understanding of how you would approach a problem like this, demonstrate some of your core technical skills and to serve as a basis of the follow-up interview which will be conducted with the Engineering Manager and one of our Senior Developers.
  
 ## Requirement
-Add a subscription billing feature to our system.
+Add a subscription billing feature to our fictional system.
  
 ### Billing regime
-Customers can be billed at various intervals; monthly, quarterly or annually for one or more products which they can add at any time. Customers are always billed on the anniversary of buying the product (i.e. if the product was added on the 3rd of the month and monthly billing is selected then they will be billed on the 3rd of every month).
+Customers can be billed at various intervals; monthly, quarterly or annually for one or more products which they can add at any time. Customers are always billed on the anniversary of buying the product. For clarification, if the product was added on the 3rd of the month and monthly billing is selected then they will be billed on the 3rd of every month.
  
 ### Billing provider
-The billing provider offers a RESTful API that allows us to post payments, refunds and to enquire about the outcome of events. There is also a webhook interface which posts outcomes back to us.
+The fictinional billing provider offers a RESTful API that allows us to post payments and refunds and to enquire about the outcome of events. There is also a webhook interface which can be used to receive events.
  
 ### Existing schema
-We currently have a minimal schema which records details about the customer along with any products they have ordered.
+We propose a minimal schema which records details about the customer along with any products they have ordered.
 ![minimal schema](assets/ERD.png)
- 
+
 ### The task
-Please mock up (in Python/Flask/SQLAlchemy) our current schema with columns that you feel are obvious and relevant to the customer, order and product tables - then;
+Please mock up (in Python/Flask/SQLAlchemy) the schema with columns that you feel are obvious and relevant to the customer, order and product tables - then;
  
 * produce a mechanism to bill customers on their annual billing interval.
- * consider what audit & logging is needed to ensure the integrity of the process.
- * the system will continue to try and charge customers up to 5 days after the billing date before the subscription is terminated.
-* implement an interface that will allow the billing provider's webhooks to communicate events to us. Of all the events supported, we need to implement;
- * `payment-outcome`: This may be `success` or `failure`. If `failure` then a reason is provided.
- * `refund`: A refund for a given payment along with the refund reason.
- * `card-unavailable`: The customer’s card has `expired` or been `cancelled`. In such an event the customer will not be charged at their next billing cycle but insteads the subscription will be cancelled.
+  * consider what audit & logging is needed to ensure the integrity of the process.
+  * the system will continue to try and charge customers up to 5 days after the billing date before the subscription is terminated.
+* implement an interface that will allow the billing provider's webhooks to communicate events to your system. Of all the events supported, implement;
+  * `payment-outcome`: This may be `success` or `failure`. If `failure` then a reason is provided.
+  * `refund`: A refund for a given payment along with the refund reason.
+  * `card-unavailable`: The customer’s card has `expired` or been `cancelled`. In such an event the customer will not be charged at their next billing cycle but the subscription will be cancelled instead.
 * alter the database to support the new functionality adding columns and tables as required.
- 
+
 ## Scope
-This is obviously a broad task. The intention is to allow you to demonstrate a variety of skills to the degree you feel comfortable. Any elements of the system you don't implement can be annotated so we can get an understanding of what you would have done, given time and opportunity.
- 
+**This is obviously a broad task. The intention is to allow you to demonstrate a variety of skills to the degree you feel comfortable. Any elements of the system you don't implement can be annotated so we can get an understanding of what you would have done, given time and opportunity**. This is not intended to be a robust production system. The purpose of the assessment is to show your Python, Flask and SQLAlchemy skills. Please also see [Hints and Tips](/#hints-and-tips), below.
+
 ### Additional considerations
-Other items of interest to us include;
+Other items of interest include;
 * Alembic and data migration tasks
 * How the billing process would be run in production
 * Security considerations
@@ -63,16 +63,24 @@ Other items of interest to us include;
 * Test coverage
 * Pre-commit environment
 * CI/Github Actions workflow
+
+There is no action to be performed here, necessarily. We will discuss some of these topics in our interview so we can understand your thoughts a little more. 
  
 ### Enhancements
-We might want to make some changes in the future. Please classify the following tasks as Large, Medium or Small in the context of the work you have done in this assessment.
+We might want to make some changes in the future. Please classify the following tasks as Large, Medium or Small in the context of the work you have done in this assessment. The intention isn't to do the task but to simply state if the change would be complex (Large) or something that was low risk and simple (Small).
 * Reconciliation - we might want to periodically reconcile our database with our billing partner's records.
 * Alternative provider - we might want to add another payment provider.
   * Any single customer can only use one payment provider.
   * Each payment provider loosely uses the same architecture (RESTful API and webhooks) but the payloads differ and the data types and geometry vary.
   * Each payment provider's security approach differs. One uses Webhook Signatures whilst the other uses Session based Token Exchange over an IPSec tunnel.
 * We have decided to send a personalised email via our CRM system on each successful billing event.
-* As our billing provider charges us for every billing event, we have decided to align billing requests for customers with multiple products.
+* As the billing provider charges for every billing event, we might align billing requests for customers with multiple products so that multiple products are charged at the same time.
+# Hints and Tips
+1. We do not expect you to do the whole assessment in its entirety.
+2. Consider using SQLite as the database.
+3. Pytest might be a good way to prove the webhook endpoints and show us your pytest foo, killing two birds with one stone.
+4. Don’t do the whole assessment. I know we have mentioned this already but it’s important enough to repeat!
+
 
 # Results
 We would like you to create a private repository in your github account and commit your code to it. We would urge you to commit relatively frequently so we can get an idea of your style and approach. Once you are happy with your work please add @glennandskinandme and we’ll review your submission immediately! 👏
