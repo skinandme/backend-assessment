@@ -43,12 +43,12 @@ We propose a minimal schema which records details about the customer along with 
 Please mock up (in Python/Flask/SQLAlchemy) the schema with columns that you feel are obvious and relevant to the customer, order and product tables - then;
  
 * produce a mechanism to bill customers on their annual billing interval.
- * consider what audit & logging is needed to ensure the integrity of the process.
- * the system will continue to try and charge customers up to 5 days after the billing date before the subscription is terminated.
+  * consider what audit & logging is needed to ensure the integrity of the process.
+  * the system will continue to try and charge customers up to 5 days after the billing date before the subscription is terminated.
 * implement an interface that will allow the billing provider's webhooks to communicate events to your system. Of all the events supported, implement;
- * `payment-outcome`: This may be `success` or `failure`. If `failure` then a reason is provided.
- * `refund`: A refund for a given payment along with the refund reason.
- * `card-unavailable`: The customer’s card has `expired` or been `cancelled`. In such an event the customer will not be charged at their next billing cycle but the subscription will be cancelled instead.
+  * `payment-outcome`: This may be `success` or `failure`. If `failure` then a reason is provided.
+  * `refund`: A refund for a given payment along with the refund reason.
+  * `card-unavailable`: The customer’s card has `expired` or been `cancelled`. In such an event the customer will not be charged at their next billing cycle but the subscription will be cancelled instead.
 * alter the database to support the new functionality adding columns and tables as required.
 
 ## Scope
