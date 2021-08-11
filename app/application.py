@@ -42,11 +42,11 @@ def order_product():
 
     with app.app_context():
 
-        customer = Customer.query.filter_by(id=payload['customer']).one_or_none()
+        customer = db.session.query(Customer).filter_by(id=payload['customer']).one_or_none()
         if not customer:
             return _standard_response('NoSuchCustomer', 404)
 
-        product = Product.query.filter_by(id=payload['product']).one_or_none()
+        product = db.session.query(Product).filter_by(id=payload['product']).one_or_none()
         if not product:
             return _standard_response('NoSuchProduct', 404)
 

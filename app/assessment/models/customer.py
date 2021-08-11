@@ -4,7 +4,7 @@ import datetime
 from assessment.crypto import hash, Cipher
 from assessment.models.order import Order
 
-_KEY = os.environ.get("APP_ENCRYPTION_KEY")
+_KEY = os.environ.get("APP_ENCRYPTION_KEY", "default-key")
 
 class Customer(db.Model):
     id = db.Column(db.String(36),primary_key=True,nullable=False)
@@ -68,4 +68,4 @@ class Customer(db.Model):
     @classmethod
     def by_email(cls, email:str):
         target = hash(email)
-        return cls.query.filter_by(email_hash=target).first()
+        return db.session.query(cls).filter_by(email_hash=target).first()

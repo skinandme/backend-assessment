@@ -12,8 +12,8 @@ import random
    what is should. 
 """
 
-def test_order_creation_success( app, queries ):
 
+def test_order_creation_success( app, queries ):
     """
         Exercise the /order API route by ordering a random quantity
         of a product for a customer and then check to make sure the
@@ -45,7 +45,7 @@ def test_order_creation_success( app, queries ):
             # Check to ensure the order exists for the customer and product
             payload = json.loads(response.data.decode())
             assert not payload['error']
-            order = Order.query.filter_by(id=payload['order_id']).first()
+            order = db.session.query(Order).filter_by(id=payload['order_id']).first()
             assert order
             assert order.product.pop().id == product_id
             assert order.customer_id == customer_id
