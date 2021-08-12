@@ -19,7 +19,7 @@ Coldplay once sang 'Nobody said it was easy', and we agree. Every day presents n
 You are an energetic and passionate professional with strong communication skills who is as keen to acquire knowledge as you are to share it. You can demonstrate a high degree of competence using our core toolset; AWS, Docker, Python, Flask, SQLAlchemy, Alembic, MySQL and github. You enjoy solving problems and are equally at ease maintaining our existing code base as you are writing new code. You work as well in small teams and you do on projects independently, interacting with key stakeholders as required to achieve positive outcomes.
  
 # Scope
-The purpose of this test is to convey an understanding of your technical competency. You don’t need to complete the task in its entirety but instead you will demonstrate a clear understanding of the problem, a structured approach to problem solving and complete enough elements of the task to show us that you are a good programmer who clearly understands how to best use our toolset. We expect this test to take between **3 and 4 hours** to get it to a respectable point for further discussion.
+The purpose of this test is to convey an understanding of your technical competency. You don’t need to complete the task in its entirety but instead you will demonstrate a clear understanding of the problem, a structured approach to problem solving and complete enough elements of the task to show us that you are a good programmer who clearly understands how to best use our toolset. We expect this test to take between **1 and 2 hours** to get it to a respectable point for further discussion.
  
 # Task
  
@@ -33,14 +33,14 @@ Add a subscription billing feature to our fictional system.
 Customers can be billed at various intervals; monthly, quarterly or annually for one or more products which they can add at any time. Customers are always billed on the anniversary of buying the product. For clarification, if the product was added on the 3rd of the month and monthly billing is selected then they will be billed on the 3rd of every month.
  
 ### Billing provider
-The fictinional billing provider offers a RESTful API that allows us to post payments and refunds and to enquire about the outcome of events. There is also a webhook interface which can be used to receive events.
+The fictional billing provider offers a RESTful API that allows us to post payments and refunds and to enquire about the outcome of events. There is also a webhook interface which can be used to receive events.
  
 ### Existing schema
-We propose a minimal schema which records details about the customer along with any products they have ordered.
-![minimal schema](assets/ERD.png)
+Our schema records details about the customer along with any products they have ordered.
+![current schema](assets/ERD.png)
 
 ### The task
-Please mock up (in Python/Flask/SQLAlchemy) the schema with columns that you feel are obvious and relevant to the customer, order and product tables - then;
+Please extend the current system to support the following;
  
 * produce a mechanism to bill customers on their annual billing interval.
   * consider what audit & logging is needed to ensure the integrity of the process.
@@ -50,9 +50,16 @@ Please mock up (in Python/Flask/SQLAlchemy) the schema with columns that you fee
   * `refund`: A refund for a given payment along with the refund reason.
   * `card-unavailable`: The customer’s card has `expired` or been `cancelled`. In such an event the customer will not be charged at their next billing cycle but the subscription will be cancelled instead.
 * alter the database to support the new functionality adding columns and tables as required.
+* restructure any elements of the app to make it a little more standard/well structured.
 
 ## Scope
 **This is obviously a broad task. The intention is to allow you to demonstrate a variety of skills to the degree you feel comfortable. Any elements of the system you don't implement can be annotated so we can get an understanding of what you would have done, given time and opportunity**. This is not intended to be a robust production system. The purpose of the assessment is to show your Python, Flask and SQLAlchemy skills. Please also see [Hints and Tips](/#hints-and-tips), below.
+
+# Prerequisites
+- Python 3.8
+- MySQL
+
+We would expect the application to run under gunicorn, although that is out of scope of this assessment.
 
 ### Additional considerations
 Other items of interest include;
@@ -60,7 +67,6 @@ Other items of interest include;
 * How the billing process would be run in production
 * Security considerations
 * Scalability
-* Test coverage
 * Pre-commit environment
 * CI/Github Actions workflow
 
@@ -75,12 +81,47 @@ We might want to make some changes in the future. Please classify the following 
   * Each payment provider's security approach differs. One uses Webhook Signatures whilst the other uses Session based Token Exchange over an IPSec tunnel.
 * We have decided to send a personalised email via our CRM system on each successful billing event.
 * As the billing provider charges for every billing event, we might align billing requests for customers with multiple products so that multiple products are charged at the same time.
+
+
 # Hints and Tips
 1. We do not expect you to do the whole assessment in its entirety.
-2. Consider using SQLite as the database.
-3. Pytest might be a good way to prove the webhook endpoints and show us your pytest foo, killing two birds with one stone.
+2. Pytest might be a good way to prove the webhook endpoints and show us your pytest foo, killing two birds with one stone.
+3. Consider using SQLite if MySQL is not an option. Obviously update the `requirements.txt` accordingly.
 4. Don’t do the whole assessment. I know we have mentioned this already but it’s important enough to repeat!
 
+# Build
+To get you started we have created a basic app. Start by cloning the repo, update the configuration, install the Python libraries, create the database tables and run the tests.
+
+## Installation
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r app/requirements.txt
+```
+
+## Configuration
+1. Update `SQLALCHEMY_DATABASE_URI` in `app/assessment/api.py` to use your database connection string.
+2. Define the environment variable `APP_ENCRYPTION_KEY` to any value to act as your encryption key.
+
+## Create the database and run the tests
+Check that everything is setup and configured properly by running the tests.
+
+```bash
+cd app
+python create_database.py
+python -m pytest -v
+```
+
+## Run the server
+The run the server;
+```bash
+(cd app && FLASK_APP=application:app FLASK_ENV=development flask run --host 0.0.0.0 --port 9000)
+```
+## Done
+You are now ready to start the assessment.
+
+## No MySQL server?
+We appreciate you might not have a spare MySQL server lying about. Consider using [a MySQL Docker container](https://hub.docker.com/_/mysql) or make use of an [SQLite](https://www.sqlite.org/index.html) instance instead. Obviously change the `requirements.txt` file if you elect to use SQLite.
 
 # Results
 We would like you to create a private repository in your github account and commit your code to it. We would urge you to commit relatively frequently so we can get an idea of your style and approach. Once you are happy with your work please add @glennandskinandme and we’ll review your submission immediately! 👏

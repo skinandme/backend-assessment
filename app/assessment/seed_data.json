@@ -1,0 +1,7 @@
+{
+    "product": [
+        {"name": "zeegle", "description": "left handed sprocket", "price": 5499},
+        {"name": "zoogle", "description": "right handed sprocket", "price": 3999},
+        {"name": "zuffle", "description": "ambidextrous sprocket", "price": 8499}
+    ]
+}
