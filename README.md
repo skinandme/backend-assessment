@@ -57,8 +57,6 @@ Please extend the current system to support the following;
 
 # Prerequisites
 - Python 3.8
-- Flask v1
-- Virtualenv
 - MySQL
 
 We would expect the application to run under gunicorn, although that is out of scope of this assessment.
@@ -84,12 +82,46 @@ We might want to make some changes in the future. Please classify the following 
 * We have decided to send a personalised email via our CRM system on each successful billing event.
 * As the billing provider charges for every billing event, we might align billing requests for customers with multiple products so that multiple products are charged at the same time.
 
+
 # Hints and Tips
 1. We do not expect you to do the whole assessment in its entirety.
 2. Pytest might be a good way to prove the webhook endpoints and show us your pytest foo, killing two birds with one stone.
 3. Consider using SQLite if MySQL is not an option. Obviously update the `requirements.txt` accordingly.
 4. Don’t do the whole assessment. I know we have mentioned this already but it’s important enough to repeat!
 
+# Build
+To get you started we have created a basic app. Start by cloning the repo, update the configuration, install the Python libraries, create the database tables and run the tests.
+
+## Installation
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r app/requirements.txt
+```
+
+## Configuration
+1. Update `SQLALCHEMY_DATABASE_URI` in `app/assessment/api.py` to use your database connection string.
+2. Define the environment variable `APP_ENCRYPTION_KEY` to any value to act as your encryption key.
+
+## Create the database and run the tests
+Check that everything is setup and configured properly by running the tests.
+
+```bash
+cd app
+python create_database.py
+python -m pytest -v
+```
+
+## Run the server
+The run the server;
+```bash
+(cd app && FLASK_APP=application:app FLASK_ENV=development flask run --host 0.0.0.0 --port 9000)
+```
+## Done
+You are now ready to start the assessment.
+
+## No MySQL server?
+We appreciate you might not have a spare MySQL server lying about. Consider using [a MySQL Docker container](https://hub.docker.com/_/mysql) or make use of an [SQLite](https://www.sqlite.org/index.html) instance instead. Obviously change the `requirements.txt` file if you elect to use SQLite.
 
 # Results
 We would like you to create a private repository in your github account and commit your code to it. We would urge you to commit relatively frequently so we can get an idea of your style and approach. Once you are happy with your work please add @glennandskinandme and we’ll review your submission immediately! 👏
