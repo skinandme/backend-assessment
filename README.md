@@ -124,4 +124,4 @@ You are now ready to start the assessment.
 We appreciate you might not have a spare MySQL server lying about. Consider using [a MySQL Docker container](https://hub.docker.com/_/mysql) or make use of an [SQLite](https://www.sqlite.org/index.html) instance instead. Obviously change the `requirements.txt` file if you elect to use SQLite.
 
 # Results
-We would like you to create a private repository in your github account and commit your code to it. We would urge you to commit relatively frequently so we can get an idea of your style and approach. Once you are happy with your work please add @glennandskinandme and we’ll review your submission immediately! 👏
+We would like you to create a private repository in your github account and commit your code to it. We would urge you to commit relatively frequently so we can get an idea of your style and approach. Once you are happy with your work please add @tfranceuk and @mikepassey and we’ll review your submission immediately! 👏
