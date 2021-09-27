@@ -100,7 +100,7 @@ pip install -r app/requirements.txt
 ```
 
 ## Configuration
-1. Update `SQLALCHEMY_DATABASE_URI` in `app/assessment/api.py` to use your database connection string.
+1. Update `SQLALCHEMY_DATABASE_URI` in `app/assessment/app.py` to use your database connection string.
 2. Define the environment variable `APP_ENCRYPTION_KEY` to any value to act as your encryption key.
 
 ## Create the database and run the tests
